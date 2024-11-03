@@ -13,7 +13,10 @@ def main() -> None:
     dp = Dispatcher()
 
     # Регистрация диспетчеров
+    dp.include_router(handlers.router)
 
     # Пропускаем апдейты
+    await bot.delete_webhook(drop_pending_updates=True)
+    await dp.start_polling(bot)
 
 asyncio.run(main())
