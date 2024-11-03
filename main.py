@@ -3,8 +3,9 @@ import asyncio
 
 from aiogram import Bot, Dispatcher
 from config_data.config import Config, load_config
+import handlers
 
-def main() -> None:
+async def main() -> None:
     '''Функция настройки(конфигурирования) и запуска бота'''
 
     config = load_config() # загружаем конфигурацию

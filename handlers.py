@@ -2,14 +2,15 @@ from aiogram import F, Router
 from aiogram.filters import CommandStart, Command
 from aiogram.types import Message
 from lexicon import LEXICON_RU
-from other_functions import determine_winner, LAYOUT
+from services import determine_winner, LAYOUT, bot_choice
+from keyboards import keyboard_start, keyboard_game
 
 router = Router()
 
 @router.message(CommandStart())
 async def process_start_command(message: Message):
     await message.answer(
-        text=LEXICON_RU["/start"]
+        text=LEXICON_RU["/start"],
         reply_markup=keyboard_start
     )
 
@@ -18,33 +19,35 @@ async def process_start_command(message: Message):
 async def process_help_command(message: Message):
     await messsage.answer(
         text=LEXICON_RU["/help"],
-        reply_keyboard=keyboard_start
+        reply_markup=keyboard_start
     )
 
 
-@router.message(F.text == "Давай!")
+@router.message(F.text == LEXICON_RU['yes_button'])
 async def process_agree_answer(message: Message):
     await message.answer(
         text=LEXICON_RU["yes"],
-        reply_keyboard=keyboard_game
+        reply_markup=keyboard_game
     )
 
 
-@router.message(F.text == "Не хочу")
+@router.message(F.text == LEXICON_RU['no_button'])
 async def process_refusal_answer(message: Message):
-    await message.answer(
-        text=LEXICON_RU["no"]
-    )
+    await message.answer(text=LEXICON_RU["no"])
 
 
 @router.message(F.text.in_([LAYOUT.keys()]))
 async def process_game_answer(message: Message):
     # записать ответ
-    # выбор бота и кто побетитель
-    result = determine_winner(message.text)
+    bot_answer = bot_choice()
+    result = determine_winner(message.text, bot_answer)
+    await message.answer(
+        text=f'{LEXICON_RU["bot_choice"]} - {bot_answer}'
+    )
+
     await message.answer(
         text=LEXICON_RU[result],
-        reply_keyboard=keyboard_start
+        reply_markup=keyboard_start
     )
 
 
