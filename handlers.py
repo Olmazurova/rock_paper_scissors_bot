@@ -17,7 +17,7 @@ async def process_start_command(message: Message):
 
 @router.message(Command(commands=["help"]))
 async def process_help_command(message: Message):
-    await messsage.answer(
+    await message.answer(
         text=LEXICON_RU["/help"],
         reply_markup=keyboard_start
     )
@@ -36,7 +36,7 @@ async def process_refusal_answer(message: Message):
     await message.answer(text=LEXICON_RU["no"])
 
 
-@router.message(F.text.in_([LAYOUT.keys()]))
+@router.message(F.text.in_(LAYOUT.keys()))
 async def process_game_answer(message: Message):
     # записать ответ
     bot_answer = bot_choice()
@@ -53,6 +53,7 @@ async def process_game_answer(message: Message):
 
 @router.message()
 async def process_other_answers(message: Message):
+    print(message.text)
     await message.answer(
         text=LEXICON_RU["other"]
     )
