@@ -1,2 +1,7 @@
 # rock_paper_scissors_bot
-This is Telegram_bot for play "Rock Paper Scissors"
+Это телеграм бот для игры "Камень-Ножницы-Бумага".
+
+Для игры введите команду: python bot.py
+
+---
+Автор: Ольга Мазурова
